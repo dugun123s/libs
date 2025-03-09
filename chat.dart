@@ -78,18 +78,19 @@ class Chat extends StatefulWidget {
   Timestamp chatListTime;
   String currentUserId;
   String peerName;
-  Chat(
-      {this.searchText,
-      this.searchTime,
-      this.peerID,
-      this.archive,
-      this.peerName = "",
-      @required this.currentUserId,
-      this.pin,
-      this.mute,
-      this.chatListTime,
-      localFileSystem})
-      : this.localFileSystem = localFileSystem ?? LocalFileSystem();
+
+  Chat({
+    this.searchText,
+    this.searchTime,
+    this.peerID,
+    this.archive,
+    this.peerName = "",
+    @required this.currentUserId,
+    this.pin,
+    this.mute = false, // Fix: Add default value
+    this.chatListTime, // Fix: Add default value or 'required' keyword
+    localFileSystem,
+  }) : this.localFileSystem = localFileSystem ?? LocalFileSystem();
 
   @override
   _ChatState createState() => _ChatState(peerID: peerID);
@@ -102,41 +103,37 @@ class _ChatState extends State<Chat> {
   String peerChatIn = '';
 
   _ChatState({@required this.peerID});
-  // ignore: unused_field
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final dataKey = new GlobalKey();
-//RECORDER ----------------------------------------------------------------
 
   bool record = false;
   bool running = false;
   bool button = false;
   File voiceRecording;
-//RECORDER ----------------------------------------------------------------
 
   String groupChatId = "";
   QuerySnapshot listMessage;
   File videoFile;
   File videoInfo;
-  VideoPlayerController _videoPlayerController;
-  bool isLoading;
-  String imageUrl;
+  late VideoPlayerController _videoPlayerController; // Fix: Add 'late'
+  bool isLoading = false; // Fix: Initialize with default value
+  String imageUrl = ''; // Fix: Initialize with default value
   int limit = 20;
 
   final TextEditingController textEditingController = TextEditingController();
-
   TextEditingController reviewCode = TextEditingController();
   TextEditingController reviewText = TextEditingController();
   bool isInView = false;
-  File _path;
-  String filename;
+  late File _path; // Fix: Add 'late'
+  String filename = ''; // Fix: Initialize with default value
 
   var check = [];
   var toSendname = [];
   var toSendphone = [];
-  // ignore: non_constant_identifier_names
   double HEIGHT = 96;
   final ValueNotifier<double> notifier = ValueNotifier(0);
-  Timestamp banner;
+  late Timestamp banner; // Fix: Add 'late'
   var backImage = '';
   var blocksId = [];
   var peerblocksId = [];
@@ -146,13 +143,12 @@ class _ChatState extends State<Chat> {
   bool searchData = false;
   TextEditingController controller = new TextEditingController();
   TextEditingController forwardController = new TextEditingController();
-  List chatMsgList;
+  List chatMsgList = []; // Fix: Initialize with default value
   firebase.FirebaseDatabase database = new firebase.FirebaseDatabase();
   bool deleteButton = false;
   var deleteMsgTime = [];
   var deleteMsgID = [];
   var deleteMsgContent = [];
-  //LocationResult _pickedLocation;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     isLapHours: true,
@@ -176,13 +172,9 @@ class _ChatState extends State<Chat> {
 
   var getContacts = [];
   var newgetContacts = [];
-  // ignore: unused_field
-  GiphyGif _gif;
+  late GiphyGif _gif; // Fix: Add 'late'
   final textFieldFocusNode = FocusNode();
   final FocusNode focusNode = FocusNode();
-//FORWARD
-
-//FOR PERSON TO PERSON
 
   bool forwardButton = false;
   var forwardContent = [];
@@ -196,7 +188,6 @@ class _ChatState extends State<Chat> {
   var forwardMsgPeerImage = [];
   var forwardMsgType = [];
 
-  //FOR GROUP
   var groupMsgId = [];
   var groupMsgUserId = [];
   var groupMsgContent = [];
@@ -204,7 +195,6 @@ class _ChatState extends State<Chat> {
   var groupMsgPeerName = [];
   var groupMsgPeerImage = [];
   var groupMsgType = [];
-  //FORWARD
 
   bool isButtonEnabled = false;
 
@@ -212,13 +202,11 @@ class _ChatState extends State<Chat> {
   String lastSeenPrivacy = '';
   bool loadPage = true;
 
-  //EDIT IMAGE
   bool editImage = false;
   int _currentImage = 0;
 
-  //Blink
   bool _showBlink = false;
-  Timer _timerBlink;
+  late Timer _timerBlink; // Fix: Add 'late'
   String contentBlink = '';
 
   Timer searchOnStoppedTyping;
